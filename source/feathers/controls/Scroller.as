@@ -5364,7 +5364,7 @@ package feathers.controls
 			this._startVerticalScrollPosition = this._verticalScrollPosition;
 			this._isScrollingStopped = false;
 
-			this.addEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
+			this.stage.addEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
 
 			//we need to listen on the stage because if we scroll the bottom or
 			//right edge past the top of the scroller, it gets stuck and we stop
@@ -5490,7 +5490,7 @@ package feathers.controls
 				{
 					ExclusiveTouch.forStage(this.stage).removeEventListener(Event.CHANGE, exclusiveTouch_changeHandler);
 				}
-				this.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
+				this.stage.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
 				this.stage.removeEventListener(TouchEvent.TOUCH, stage_touchHandler);
 				this._touchPointID = -1;
 				this.dispatchEventWith(FeathersEventType.END_INTERACTION);
@@ -5569,7 +5569,7 @@ package feathers.controls
 			}
 
 			this._touchPointID = -1;
-			this.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
+			this.stage.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
 			this.stage.removeEventListener(TouchEvent.TOUCH, stage_touchHandler);
 			exclusiveTouch.removeEventListener(Event.CHANGE, exclusiveTouch_changeHandler);
 			this.dispatchEventWith(FeathersEventType.END_INTERACTION);
@@ -5799,7 +5799,7 @@ package feathers.controls
 			this._previousVelocityY.length = 0;
 			this._horizontalScrollBarIsScrolling = false;
 			this._verticalScrollBarIsScrolling = false;
-			this.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
+			this.stage.removeEventListener(Event.ENTER_FRAME, scroller_enterFrameHandler);
 			this.stage.removeEventListener(TouchEvent.TOUCH, stage_touchHandler);
 			if(this._verticalAutoScrollTween)
 			{

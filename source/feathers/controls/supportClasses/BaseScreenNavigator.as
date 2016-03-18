@@ -11,6 +11,7 @@ package feathers.controls.supportClasses
 	import feathers.core.FeathersControl;
 	import feathers.core.IValidating;
 	import feathers.events.FeathersEventType;
+	import starling.display.Stage;
 
 	import flash.errors.IllegalOperationError;
 	import flash.geom.Rectangle;
@@ -637,7 +638,8 @@ package feathers.controls.supportClasses
 				this._waitingTransition = transition;
 				//this is a workaround for an issue with transition performance.
 				//see the comment in the listener for details.
-				this.addEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+				//this.addEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+				addEnterFrame();
 			}
 			else
 			{
@@ -683,7 +685,8 @@ package feathers.controls.supportClasses
 				this._waitingTransition = transition;
 				//this is a workaround for an issue with transition performance.
 				//see the comment in the listener for details.
-				this.addEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+				//this.addEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+				addEnterFrame();
 			}
 			else
 			{
@@ -790,6 +793,11 @@ package feathers.controls.supportClasses
 		protected function screenNavigator_addedToStageHandler(event:Event):void
 		{
 			this.stage.addEventListener(Event.RESIZE, stage_resizeHandler);
+			_enterFrameStage = this.stage;
+			if (_enterFrameNeedAdd)
+			{
+				addEnterFrame();
+			}
 		}
 
 		/**
@@ -835,7 +843,8 @@ package feathers.controls.supportClasses
 				this._waitingForTransitionFrameCount++;
 				return;
 			}
-			this.removeEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+			//this.removeEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+			removeEnterFrame();
 			if(this._activeScreen)
 			{
 				this._activeScreen.visible = true;
@@ -844,6 +853,32 @@ package feathers.controls.supportClasses
 			var transition:Function = this._waitingTransition;
 			this._waitingTransition = null;
 			transition(this._previousScreenInTransition, this._activeScreen, transitionComplete);
+		}
+		
+		private var _enterFrameNeedAdd:Boolean;
+		private var _enterFrameStage:Stage;
+		
+		private function addEnterFrame():void
+		{
+			var stage:Stage = this.stage;
+			if (stage != null)
+			{
+				stage.addEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+				_enterFrameNeedAdd = false;
+			}
+			else
+			{
+				_enterFrameNeedAdd = true;
+			}
+		}
+		
+		private function removeEnterFrame():void
+		{
+			_enterFrameNeedAdd = false;
+			if (_enterFrameStage != null)
+			{
+				_enterFrameStage.removeEventListener(Event.ENTER_FRAME, waitingForTransition_enterFrameHandler);
+			}
 		}
 	}
 }
