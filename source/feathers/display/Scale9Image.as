@@ -315,7 +315,7 @@ package feathers.display
 		/**
 		 * @private
 		 */
-		private var _useSeparateBatch:Boolean = true;
+		private var _useSeparateBatch:Boolean = false;
 
 		/**
 		 * Determines if the regions are batched normally by Starling or if

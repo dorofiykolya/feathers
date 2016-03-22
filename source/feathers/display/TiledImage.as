@@ -278,7 +278,7 @@ package feathers.display
 		/**
 		 * @private
 		 */
-		private var _useSeparateBatch:Boolean = true;
+		private var _useSeparateBatch:Boolean = false;
 
 		/**
 		 * Determines if the tiled images are batched normally by Starling or if
