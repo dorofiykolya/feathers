@@ -117,6 +117,7 @@ package feathers.events
 			}
 			if(touchID < 0)
 			{
+				return false;
 				throw new ArgumentError("Invalid touch. Touch ID must be >= 0.");
 			}
 			var existingTarget:DisplayObject = DisplayObject(this._claims[touchID]);
